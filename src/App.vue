@@ -1,8 +1,12 @@
 <script setup lang="ts">
-console.log('👋 This message is being logged by "App.vue", included via Vite');
+import ImageComparer from './components/ImageComparer.vue';
+
+const imageLeft = 'https://picsum.photos/800/600?random=1';
+const imageRight = 'https://picsum.photos/800/600?random=2';
 </script>
 
 <template>
-  <h1 class="text-red-500">💖 Hello World!</h1>
-  <p>Welcome to your Electron application.</p>
+	<div class="w-screen h-screen bg-gray-900">
+		<ImageComparer :image-left="imageLeft" :image-right="imageRight" />
+	</div>
 </template>
