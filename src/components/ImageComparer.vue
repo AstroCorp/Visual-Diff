@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import SliderIcon from '../icons/slider.svg?raw';
-import ZoomControls from './ZoomControls.vue';
+import Options from './Options.vue';
 
 interface Props {
 	imageLeft: string;
@@ -221,8 +221,8 @@ onUnmounted(() => {
 			</div>
 		</div>
 
-		<!-- Controles de zoom -->
-		<ZoomControls
+		<!-- Opciones -->
+		<Options
 			:zoom="zoom"
 			:image-visible="imageVisible"
 			@zoom-in="handleZoomIn"
