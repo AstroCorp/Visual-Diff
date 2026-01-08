@@ -8,7 +8,16 @@ interface Props {
 	imageRight: string;
 }
 
+interface Emits {
+	(e: 'select-files'): void;
+}
+
 const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
+
+const isVideo = computed(() => {
+	return props.imageLeft.startsWith('data:video/');
+});
 
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 10;
@@ -112,6 +121,8 @@ const handleWheel = (event: WheelEvent) => {
 	}
 };
 
+const handleSelectFiles = () => emit('select-files');
+
 onMounted(() => {
 	document.addEventListener('mousemove', handleMouseMove);
 	document.addEventListener('mouseup', handleMouseUp);
@@ -139,7 +150,20 @@ onUnmounted(() => {
 			<div
 				class="absolute inset-0 flex items-center justify-center min-w-full min-h-full"
 			>
+				<video
+					v-if="isVideo"
+					:src="imageLeft"
+					class="object-contain pointer-events-none"
+					:class="
+						zoom > 1 ? 'w-auto h-auto' : 'max-w-full max-h-full'
+					"
+					:style="transformStyle"
+					autoplay
+					loop
+					muted
+				/>
 				<img
+					v-else
 					:src="imageLeft"
 					alt="Imagen izquierda"
 					class="object-contain pointer-events-none"
@@ -157,7 +181,20 @@ onUnmounted(() => {
 				class="absolute inset-0 flex items-center justify-center min-w-full min-h-full"
 				:style="clipStyle"
 			>
+				<video
+					v-if="isVideo"
+					:src="imageRight"
+					class="object-contain pointer-events-none"
+					:class="
+						zoom > 1 ? 'w-auto h-auto' : 'max-w-full max-h-full'
+					"
+					:style="transformStyle"
+					autoplay
+					loop
+					muted
+				/>
 				<img
+					v-else
 					:src="imageRight"
 					alt="Imagen derecha"
 					class="object-contain pointer-events-none"
@@ -192,6 +229,7 @@ onUnmounted(() => {
 			@zoom-out="handleZoomOut"
 			@reset="handleReset"
 			@toggle-image="handleToggleImage"
+			@select-files="handleSelectFiles"
 		/>
 	</div>
 </template>

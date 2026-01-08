@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import path from 'node:path';
+import { readFileSync } from 'node:fs';
 import started from 'electron-squirrel-startup';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -14,6 +15,7 @@ const createWindow = () => {
 		height: 600,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
+			webSecurity: false,
 		},
 	});
 
@@ -37,6 +39,42 @@ const createWindow = () => {
 		mainWindow.webContents.openDevTools();
 	}
 };
+
+// IPC handlers
+ipcMain.handle('dialog:openFile', async () => {
+	const result = await dialog.showOpenDialog({
+		properties: ['multiSelections'],
+		filters: [
+			{ name: 'Images & Videos', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'webm', 'mov'] },
+			{ name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'] },
+			{ name: 'Videos', extensions: ['mp4', 'webm', 'mov'] },
+			{ name: 'All Files', extensions: ['*'] }
+		]
+	});
+	return result.canceled ? null : result.filePaths;
+});
+
+ipcMain.handle('file:readAsDataUrl', async (_, filePath: string) => {
+	try {
+		const buffer = readFileSync(filePath);
+		const ext = path.extname(filePath).toLowerCase();
+		const mimeTypes: Record<string, string> = {
+			'.jpg': 'image/jpeg',
+			'.jpeg': 'image/jpeg',
+			'.png': 'image/png',
+			'.gif': 'image/gif',
+			'.webp': 'image/webp',
+			'.mp4': 'video/mp4',
+			'.webm': 'video/webm',
+			'.mov': 'video/quicktime'
+		};
+		const mimeType = mimeTypes[ext] || 'application/octet-stream';
+		return `data:${mimeType};base64,${buffer.toString('base64')}`;
+	} catch (error) {
+		console.error('Error reading file:', error);
+		return null;
+	}
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
