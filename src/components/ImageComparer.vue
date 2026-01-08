@@ -127,7 +127,7 @@ onUnmounted(() => {
 	<div class="w-full h-full flex items-center justify-center overflow-hidden">
 		<div
 			ref="containerRef"
-			class="relative w-full h-full select-none overflow-auto"
+			class="relative w-full h-full select-none overflow-hidden"
 			:class="{
 				'cursor-grabbing': isPanning,
 				'cursor-grab': zoom > 1 && !isPanning,
