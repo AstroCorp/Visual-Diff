@@ -153,10 +153,7 @@ onUnmounted(() => {
 				<video
 					v-if="isVideo"
 					:src="imageLeft"
-					class="object-contain pointer-events-none"
-					:class="
-						zoom > 1 ? 'w-auto h-auto' : 'max-w-full max-h-full'
-					"
+					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					autoplay
 					loop
@@ -166,10 +163,7 @@ onUnmounted(() => {
 					v-else
 					:src="imageLeft"
 					alt="Imagen izquierda"
-					class="object-contain pointer-events-none"
-					:class="
-						zoom > 1 ? 'w-auto h-auto' : 'max-w-full max-h-full'
-					"
+					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					draggable="false"
 				/>
@@ -184,10 +178,7 @@ onUnmounted(() => {
 				<video
 					v-if="isVideo"
 					:src="imageRight"
-					class="object-contain pointer-events-none"
-					:class="
-						zoom > 1 ? 'w-auto h-auto' : 'max-w-full max-h-full'
-					"
+					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					autoplay
 					loop
@@ -197,10 +188,7 @@ onUnmounted(() => {
 					v-else
 					:src="imageRight"
 					alt="Imagen derecha"
-					class="object-contain pointer-events-none"
-					:class="
-						zoom > 1 ? 'w-auto h-auto' : 'max-w-full max-h-full'
-					"
+					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					draggable="false"
 				/>
