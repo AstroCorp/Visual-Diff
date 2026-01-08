@@ -3,15 +3,19 @@ import { computed } from 'vue';
 import ZoomInIcon from '../icons/zoom-in.svg?raw';
 import ZoomOutIcon from '../icons/zoom-out.svg?raw';
 import RefreshIcon from '../icons/refresh.svg?raw';
+import EyeIcon from '../icons/eye.svg?raw';
+import EyeOffIcon from '../icons/eye-off.svg?raw';
 
 interface Props {
 	zoom: number;
+	imageVisible: boolean;
 }
 
 interface Emits {
 	(e: 'zoom-in'): void;
 	(e: 'zoom-out'): void;
 	(e: 'reset'): void;
+	(e: 'toggle-image'): void;
 }
 
 const props = defineProps<Props>();
@@ -22,6 +26,7 @@ const zoomPercentage = computed(() => Math.round(props.zoom * 100));
 const handleZoomIn = () => emit('zoom-in');
 const handleZoomOut = () => emit('zoom-out');
 const handleReset = () => emit('reset');
+const handleToggleImage = () => emit('toggle-image');
 </script>
 
 <template>
@@ -59,6 +64,14 @@ const handleReset = () => emit('reset');
 				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				title="Resetear vista"
 				v-html="RefreshIcon"
+			/>
+
+			<!-- Toggle Image -->
+			<button
+				@click="handleToggleImage"
+				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
+				:title="imageVisible ? 'Ocultar segunda imagen' : 'Mostrar segunda imagen'"
+				v-html="imageVisible ? EyeIcon : EyeOffIcon"
 			/>
 		</div>
 	</div>

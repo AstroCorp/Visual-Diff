@@ -21,6 +21,7 @@ const containerRef = ref<HTMLDivElement | null>(null);
 const panOffset = ref({ x: 0, y: 0 });
 const isPanning = ref(false);
 const panStart = ref({ x: 0, y: 0 });
+const imageVisible = ref(true);
 
 const sliderStyle = computed(() => ({
 	left: `${sliderPosition.value}%`,
@@ -48,6 +49,10 @@ const handleZoomOut = () => {
 const handleReset = () => {
 	zoom.value = 1;
 	panOffset.value = { x: 0, y: 0 };
+};
+
+const handleToggleImage = () => {
+	imageVisible.value = !imageVisible.value;
 };
 
 const startDragging = (event: MouseEvent) => {
@@ -148,6 +153,7 @@ onUnmounted(() => {
 
 			<!-- Imagen superpuesta (derecha) con clip -->
 			<div
+				v-if="imageVisible"
 				class="absolute inset-0 flex items-center justify-center min-w-full min-h-full"
 				:style="clipStyle"
 			>
@@ -165,6 +171,7 @@ onUnmounted(() => {
 
 			<!-- Línea del slider -->
 			<div
+				v-if="imageVisible"
 				class="absolute top-0 bottom-0 w-0.5 bg-white shadow-lg cursor-ew-resize z-10"
 				:style="sliderStyle"
 				@mousedown="startDragging"
@@ -180,9 +187,11 @@ onUnmounted(() => {
 		<!-- Controles de zoom -->
 		<ZoomControls
 			:zoom="zoom"
+			:image-visible="imageVisible"
 			@zoom-in="handleZoomIn"
 			@zoom-out="handleZoomOut"
 			@reset="handleReset"
+			@toggle-image="handleToggleImage"
 		/>
 	</div>
 </template>
