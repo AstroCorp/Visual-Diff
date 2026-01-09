@@ -50,9 +50,6 @@ const handleZoomIn = () => {
 
 const handleZoomOut = () => {
 	zoom.value = Math.max(zoom.value - ZOOM_STEP, MIN_ZOOM);
-	if (zoom.value === 1) {
-		panOffset.value = { x: 0, y: 0 };
-	}
 };
 
 const handleReset = () => {
@@ -82,7 +79,7 @@ const updateSliderPosition = (event: MouseEvent) => {
 const handleMouseMove = (event: MouseEvent) => {
 	if (isDragging.value) {
 		updateSliderPosition(event);
-	} else if (isPanning.value && zoom.value > 1) {
+	} else if (isPanning.value) {
 		const dx = event.clientX - panStart.value.x;
 		const dy = event.clientY - panStart.value.y;
 
@@ -100,7 +97,7 @@ const handleMouseUp = () => {
 };
 
 const startPanning = (event: MouseEvent) => {
-	if (zoom.value > 1 && !isDragging.value) {
+	if (!isDragging.value) {
 		event.preventDefault();
 
 		isPanning.value = true;
@@ -115,10 +112,6 @@ const handleWheel = (event: WheelEvent) => {
 	const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom.value + delta));
 
 	zoom.value = newZoom;
-
-	if (newZoom === 1) {
-		panOffset.value = { x: 0, y: 0 };
-	}
 };
 
 const handleSelectFiles = () => emit('select-files');
@@ -141,7 +134,7 @@ onUnmounted(() => {
 			class="relative w-full h-full select-none overflow-hidden"
 			:class="{
 				'cursor-grabbing': isPanning,
-				'cursor-grab': zoom > 1 && !isPanning,
+				'cursor-grab': !isPanning,
 			}"
 			@mousedown="startPanning"
 			@wheel="handleWheel"
