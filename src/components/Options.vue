@@ -5,7 +5,7 @@ import ZoomOutIcon from '../icons/zoom-out.svg?raw';
 import RefreshIcon from '../icons/refresh.svg?raw';
 import EyeIcon from '../icons/eye.svg?raw';
 import EyeOffIcon from '../icons/eye-off.svg?raw';
-import PhotoIcon from '../icons/photo.svg?raw';
+import UploadIcon from '../icons/upload.svg?raw';
 
 interface Props {
 	zoom: number;
@@ -85,7 +85,7 @@ const handleSelectFiles = () => emit('select-files');
 				@click="handleSelectFiles"
 				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				title="Seleccionar otros archivos"
-				v-html="PhotoIcon"
+				v-html="UploadIcon"
 			/>
 		</div>
 	</div>
