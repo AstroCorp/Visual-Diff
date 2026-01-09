@@ -5,7 +5,6 @@ import ZoomOutIcon from '../icons/zoom-out.svg?raw';
 import RefreshIcon from '../icons/refresh.svg?raw';
 import EyeIcon from '../icons/eye.svg?raw';
 import EyeOffIcon from '../icons/eye-off.svg?raw';
-import UploadIcon from '../icons/upload.svg?raw';
 
 interface Props {
 	zoom: number;
@@ -17,7 +16,6 @@ interface Emits {
 	(e: 'zoom-out'): void;
 	(e: 'reset'): void;
 	(e: 'toggle-image'): void;
-	(e: 'select-files'): void;
 }
 
 const props = defineProps<Props>();
@@ -29,13 +27,10 @@ const handleZoomIn = () => emit('zoom-in');
 const handleZoomOut = () => emit('zoom-out');
 const handleReset = () => emit('reset');
 const handleToggleImage = () => emit('toggle-image');
-const handleSelectFiles = () => emit('select-files');
 </script>
 
 <template>
-	<div
-		class="fixed bottom-5 right-5 bg-black/60 backdrop-blur-md rounded-full shadow-2xl"
-	>
+	<div class="bg-black/60 backdrop-blur-md rounded-full shadow-2xl">
 		<div class="flex items-center gap-1.5 p-1.5 text-white">
 			<!-- Zoom In -->
 			<button
@@ -73,19 +68,12 @@ const handleSelectFiles = () => emit('select-files');
 			<button
 				@click="handleToggleImage"
 				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
-				:title="imageVisible ? 'Ocultar segunda imagen' : 'Mostrar segunda imagen'"
+				:title="
+					imageVisible
+						? 'Ocultar segunda imagen'
+						: 'Mostrar segunda imagen'
+				"
 				v-html="imageVisible ? EyeIcon : EyeOffIcon"
-			/>
-
-			<!-- Divider -->
-			<div class="w-0.5 h-5 bg-white/20"></div>
-
-			<!-- Toggle Image -->
-			<button
-				@click="handleSelectFiles"
-				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
-				title="Seleccionar otros archivos"
-				v-html="UploadIcon"
 			/>
 		</div>
 	</div>

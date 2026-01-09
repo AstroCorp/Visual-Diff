@@ -2,6 +2,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import SliderIcon from '../icons/slider.svg?raw';
 import Options from './Options.vue';
+import FileMenu from './FileMenu.vue';
+import VideoControls from './VideoControls.vue';
 
 interface Props {
 	imageLeft: string;
@@ -31,6 +33,11 @@ const panOffset = ref({ x: 0, y: 0 });
 const isPanning = ref(false);
 const panStart = ref({ x: 0, y: 0 });
 const imageVisible = ref(true);
+const videoLeftRef = ref<HTMLVideoElement | null>(null);
+const videoRightRef = ref<HTMLVideoElement | null>(null);
+const videoCurrentTime = ref(0);
+const videoDuration = ref(0);
+const videoIsPlaying = ref(false);
 
 const sliderStyle = computed(() => ({
 	left: `${sliderPosition.value}%`,
@@ -116,6 +123,39 @@ const handleWheel = (event: WheelEvent) => {
 
 const handleSelectFiles = () => emit('select-files');
 
+const handleVideoPlay = () => {
+	if (videoLeftRef.value) videoLeftRef.value.play();
+	if (videoRightRef.value) videoRightRef.value.play();
+
+	videoIsPlaying.value = true;
+};
+
+const handleVideoPause = () => {
+	if (videoLeftRef.value) videoLeftRef.value.pause();
+	if (videoRightRef.value) videoRightRef.value.pause();
+
+	videoIsPlaying.value = false;
+};
+
+const handleVideoSeek = (time: number) => {
+	if (videoLeftRef.value) videoLeftRef.value.currentTime = time;
+	if (videoRightRef.value) videoRightRef.value.currentTime = time;
+
+	videoCurrentTime.value = time;
+};
+
+const updateVideoTime = () => {
+	if (videoLeftRef.value) {
+		videoCurrentTime.value = videoLeftRef.value.currentTime;
+	}
+};
+
+const updateVideoDuration = () => {
+	if (videoLeftRef.value) {
+		videoDuration.value = videoLeftRef.value.duration;
+	}
+};
+
 onMounted(() => {
 	document.addEventListener('mousemove', handleMouseMove);
 	document.addEventListener('mouseup', handleMouseUp);
@@ -145,12 +185,13 @@ onUnmounted(() => {
 			>
 				<video
 					v-if="isVideo"
+					ref="videoLeftRef"
 					:src="imageLeft"
 					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
-					autoplay
-					loop
 					muted
+					@timeupdate="updateVideoTime"
+					@loadedmetadata="updateVideoDuration"
 				/>
 				<img
 					v-else
@@ -170,11 +211,10 @@ onUnmounted(() => {
 			>
 				<video
 					v-if="isVideo"
+					ref="videoRightRef"
 					:src="imageRight"
 					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
-					autoplay
-					loop
 					muted
 				/>
 				<img
@@ -202,15 +242,37 @@ onUnmounted(() => {
 			</div>
 		</div>
 
-		<!-- Opciones -->
-		<Options
-			:zoom="zoom"
-			:image-visible="imageVisible"
-			@zoom-in="handleZoomIn"
-			@zoom-out="handleZoomOut"
-			@reset="handleReset"
-			@toggle-image="handleToggleImage"
-			@select-files="handleSelectFiles"
-		/>
+		<!-- Menús -->
+		<div
+			class="fixed bottom-5 right-5 md:left-5 flex flex-col-reverse md:flex-row items-end md:items-center gap-2 z-20"
+		>
+			<!-- Controles de video -->
+			<div
+				v-if="isVideo"
+				class="md:flex-1"
+			>
+				<VideoControls
+					:current-time="videoCurrentTime"
+					:duration="videoDuration"
+					:is-playing="videoIsPlaying"
+					@play="handleVideoPlay"
+					@pause="handleVideoPause"
+					@seek="handleVideoSeek"
+				/>
+			</div>
+
+			<!-- Opciones -->
+			<Options
+				:zoom="zoom"
+				:image-visible="imageVisible"
+				@zoom-in="handleZoomIn"
+				@zoom-out="handleZoomOut"
+				@reset="handleReset"
+				@toggle-image="handleToggleImage"
+			/>
+
+			<!-- Menú de archivos -->
+			<FileMenu @select-files="handleSelectFiles" />
+		</div>
 	</div>
 </template>
