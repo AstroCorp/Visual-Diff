@@ -33,11 +33,12 @@ const panOffset = ref({ x: 0, y: 0 });
 const isPanning = ref(false);
 const panStart = ref({ x: 0, y: 0 });
 const imageVisible = ref(true);
-const videoLeftRef = ref<HTMLVideoElement | null>(null);
-const videoRightRef = ref<HTMLVideoElement | null>(null);
+const videoLeftRef = ref<HTMLMediaElement | null>(null);
+const videoRightRef = ref<HTMLMediaElement | null>(null);
 const videoCurrentTime = ref(0);
 const videoDuration = ref(0);
 const videoIsPlaying = ref(false);
+const videoFrameRate = ref(30);
 
 const sliderStyle = computed(() => ({
 	left: `${sliderPosition.value}%`,
@@ -148,6 +149,24 @@ const handleVideoEnded = () => {
 	videoIsPlaying.value = false;
 };
 
+const handleNextFrame = () => {
+	handleVideoPause();
+
+	const frameTime = 1 / videoFrameRate.value;
+	const newTime = Math.min(videoCurrentTime.value + frameTime, videoDuration.value);
+
+	handleVideoSeek(newTime);
+};
+
+const handlePrevFrame = () => {
+	handleVideoPause();
+
+	const frameTime = 1 / videoFrameRate.value;
+	const newTime = Math.max(videoCurrentTime.value - frameTime, 0);
+
+	handleVideoSeek(newTime);
+};
+
 const updateVideoTime = () => {
 	if (videoLeftRef.value) {
 		videoCurrentTime.value = videoLeftRef.value.currentTime;
@@ -157,22 +176,66 @@ const updateVideoTime = () => {
 const updateVideoDuration = () => {
 	if (videoLeftRef.value) {
 		videoDuration.value = videoLeftRef.value.duration;
+		
+		// Intentar detectar el framerate del video
+		try {
+			if (videoLeftRef.value && videoLeftRef.value.captureStream) {
+				const stream = videoLeftRef.value.captureStream();
+				const tracks = stream.getVideoTracks();
+
+				if (tracks.length > 0) {
+					const settings = tracks[0].getSettings();
+
+					if (settings.frameRate) {
+						videoFrameRate.value = settings.frameRate;
+					}
+				}
+			}
+		} catch (e) {
+			videoFrameRate.value = 30;
+		}
 	}
 };
 
 // Sincronizar el estado de reproducción cuando se muestra/oculta el video derecho
 watch(imageVisible, async (newValue) => {
-	if (newValue && isVideo.value && videoIsPlaying.value) {
-		await nextTick();
+	await nextTick();
+
+	if (isVideo.value && newValue && videoRightRef.value && videoLeftRef.value) {
+		const isPaused = videoLeftRef.value.paused;
 		
-		if (videoRightRef.value && videoLeftRef.value) {
-			videoLeftRef.value.pause();
-			videoRightRef.value.pause();
+		videoLeftRef.value.pause();
+		videoRightRef.value.pause();
 
-			videoRightRef.value.currentTime = videoLeftRef.value.currentTime;
+		// Esperar a que el video derecho esté listo
+		await new Promise<void>((resolve) => {
+			if (videoRightRef.value!.readyState >= 2) {
+				resolve();
+			} else {
+				const handler = () => {
+					videoRightRef.value!.removeEventListener('loadeddata', handler);
+					resolve();
+				};
+				videoRightRef.value!.addEventListener('loadeddata', handler);
+			}
+		});
 
-			videoLeftRef.value.play();
-			videoRightRef.value.play();
+		// Sincronizar tiempos
+		videoRightRef.value.currentTime = videoLeftRef.value.currentTime;
+		
+		// Esperar a que el seek se complete
+		await new Promise<void>((resolve) => {
+			const handler = () => {
+				videoRightRef.value!.removeEventListener('seeked', handler);
+				resolve();
+			};
+			videoRightRef.value!.addEventListener('seeked', handler);
+		});
+
+		// Reanudar reproducción si estaba reproduciéndose
+		if (!isPaused) {
+			await videoLeftRef.value.play();
+			await videoRightRef.value.play();
 		}
 	}
 });
@@ -266,7 +329,7 @@ onUnmounted(() => {
 
 		<!-- Menús -->
 		<div
-			class="fixed bottom-5 right-5 md:left-5 flex flex-col-reverse md:flex-row items-end md:items-center gap-2 z-20"
+			class="fixed bottom-5 right-5 lg:left-5 flex flex-col-reverse lg:flex-row items-end lg:items-center gap-2 z-20"
 		>
 			<!-- Controles de video -->
 			<div
@@ -277,9 +340,12 @@ onUnmounted(() => {
 					:current-time="videoCurrentTime"
 					:duration="videoDuration"
 					:is-playing="videoIsPlaying"
+					:frame-rate="videoFrameRate"
 					@play="handleVideoPlay"
 					@pause="handleVideoPause"
 					@seek="handleVideoSeek"
+					@next-frame="handleNextFrame"
+					@prev-frame="handlePrevFrame"
 				/>
 			</div>
 

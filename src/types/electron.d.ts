@@ -7,4 +7,8 @@ declare global {
 			readFileAsDataUrl: (filePath: string) => Promise<string | null>;
 		};
 	}
+
+	interface HTMLMediaElement {
+		captureStream(frameRate?: number): MediaStream;
+	}
 }
