@@ -322,7 +322,7 @@ onUnmounted(() => {
 					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					muted
-					@load="handleLoadRight"
+					@canplaythrough="handleLoadRight"
 				/>
 				<img
 					v-else
