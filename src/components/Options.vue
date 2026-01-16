@@ -35,7 +35,7 @@ const handleToggleImage = () => emit('toggle-image');
 			<!-- Zoom In -->
 			<button
 				@click="handleZoomIn"
-				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
+				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				title="Aumentar zoom"
 				v-html="ZoomInIcon"
 			/>
@@ -48,7 +48,7 @@ const handleToggleImage = () => emit('toggle-image');
 			<!-- Zoom Out -->
 			<button
 				@click="handleZoomOut"
-				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
+				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				title="Reducir zoom"
 				v-html="ZoomOutIcon"
 			/>
@@ -59,7 +59,7 @@ const handleToggleImage = () => emit('toggle-image');
 			<!-- Reset -->
 			<button
 				@click="handleReset"
-				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
+				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				title="Resetear vista"
 				v-html="RefreshIcon"
 			/>
@@ -67,7 +67,7 @@ const handleToggleImage = () => emit('toggle-image');
 			<!-- Toggle Image -->
 			<button
 				@click="handleToggleImage"
-				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
+				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				:title="
 					imageVisible
 						? 'Ocultar segunda imagen'

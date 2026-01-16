@@ -71,7 +71,7 @@ const handleSliderMouseUp = () => {
 			<!-- Frame anterior -->
 			<button
 				@click="emit('prev-frame')"
-				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
+				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				title="Frame anterior"
 				v-html="PlayerSkipBackIcon"
 			/>
@@ -79,7 +79,7 @@ const handleSliderMouseUp = () => {
 			<!-- Play/Pause Button -->
 			<button
 				@click="handlePlayPause"
-				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
+				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				:title="isPlaying ? 'Pausar' : 'Reproducir'"
 				v-html="isPlaying ? PlayerPauseIcon : PlayerPlayIcon"
 			/>
@@ -87,7 +87,7 @@ const handleSliderMouseUp = () => {
 			<!-- Frame siguiente -->
 			<button
 				@click="emit('next-frame')"
-				class="w-10 h-10 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
+				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
 				title="Frame siguiente"
 				v-html="PlayerSkipForwardIcon"
 			/>

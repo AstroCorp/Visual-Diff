@@ -3,3 +3,8 @@
 body {
 	@apply font-sans antialiased;
 }
+
+*:focus,
+*:focus-visible {
+	@apply outline-none;
+}
