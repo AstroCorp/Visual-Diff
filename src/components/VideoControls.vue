@@ -92,7 +92,7 @@ const handleSliderMouseUp = () => {
 				v-html="PlayerSkipForwardIcon"
 			/>
 
-			<div class="flex flex-row text-xs gap-1.5 font-mono whitespace-nowrap">
+			<div class="flex flex-row gap-1.5 text-xs font-mono whitespace-nowrap">
 				<div>
 					{{ formattedCurrentTime }} / {{ formattedDuration }}
 				</div>

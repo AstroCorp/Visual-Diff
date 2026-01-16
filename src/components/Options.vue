@@ -41,7 +41,7 @@ const handleToggleImage = () => emit('toggle-image');
 			/>
 
 			<!-- Zoom Display -->
-			<div class="w-10 text-center text-sm font-semibold select-none">
+			<div class="w-10 text-center text-xs font-mono select-none">
 				{{ zoomPercentage }}%
 			</div>
 

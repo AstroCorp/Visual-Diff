@@ -8,6 +8,8 @@ import VideoControls from './VideoControls.vue';
 interface Props {
 	imageLeft: string;
 	imageRight: string;
+	fileNameLeft: string;
+	fileNameRight: string;
 }
 
 interface Emits {
@@ -324,6 +326,18 @@ onUnmounted(() => {
 					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 cursor-ew-resize"
 					v-html="SliderIcon"
 				/>
+
+				<!-- Nombres de archivo que siguen al slider -->
+				<div class="absolute top-4 right-full mr-4 pointer-events-none whitespace-nowrap">
+					<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
+						<p class="text-white text-xs font-mono">{{ fileNameLeft }}</p>
+					</div>
+				</div>
+				<div class="absolute top-4 left-full ml-4 pointer-events-none whitespace-nowrap">
+					<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
+						<p class="text-white text-xs font-mono">{{ fileNameRight }}</p>
+					</div>
+				</div>
 			</div>
 		</div>
 

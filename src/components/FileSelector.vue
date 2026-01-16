@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 interface Emits {
-	(e: 'filesSelected', left: string, right: string): void;
+	(e: 'filesSelected', left: string, right: string, leftName: string, rightName: string): void;
 }
 
 const emit = defineEmits<Emits>();
@@ -103,7 +103,11 @@ const selectFiles = async () => {
 			return;
 		}
 
-		emit('filesSelected', leftDataUrl, rightDataUrl);
+		// Extraer nombres de archivo de las rutas
+		const leftName = leftPath.split(/[\\/]/).pop() || '';
+		const rightName = rightPath.split(/[\\/]/).pop() || '';
+
+		emit('filesSelected', leftDataUrl, rightDataUrl, leftName, rightName);
 	} catch (error) {
 		errorMessage.value = 'Error al verificar las dimensiones de los archivos';
 	}
