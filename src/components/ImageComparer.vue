@@ -328,13 +328,13 @@ onUnmounted(() => {
 				/>
 
 				<!-- Nombres de archivo que siguen al slider -->
-				<div class="absolute top-4 right-full mr-4 pointer-events-none whitespace-nowrap">
-					<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
+				<div class="absolute top-5 right-full mr-2.5 pointer-events-none whitespace-nowrap">
+					<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-full">
 						<p class="text-white text-xs font-mono">{{ fileNameLeft }}</p>
 					</div>
 				</div>
-				<div class="absolute top-4 left-full ml-4 pointer-events-none whitespace-nowrap">
-					<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
+				<div class="absolute top-5 left-full ml-2.5 pointer-events-none whitespace-nowrap">
+					<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-full">
 						<p class="text-white text-xs font-mono">{{ fileNameRight }}</p>
 					</div>
 				</div>
