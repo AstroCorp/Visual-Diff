@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import path from 'node:path';
-import { readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 import started from 'electron-squirrel-startup';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -47,33 +47,21 @@ ipcMain.handle('dialog:openFile', async () => {
 	const result = await dialog.showOpenDialog({
 		properties: ['multiSelections'],
 		filters: [
-			{ name: 'Images & Videos', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'webm', 'mov'] },
+			{ name: 'Images & Videos', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'webm', 'mov', 'avi', 'mkv', 'flv', 'wmv', 'm4v', 'mpeg', 'mpg', '3gp', 'ogv'] },
 			{ name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'webp'] },
-			{ name: 'Videos', extensions: ['mp4', 'webm', 'mov'] },
+			{ name: 'Videos', extensions: ['mp4', 'webm', 'mov', 'avi', 'mkv', 'flv', 'wmv', 'm4v', 'mpeg', 'mpg', '3gp', 'ogv'] },
 			{ name: 'All Files', extensions: ['*'] }
 		]
 	});
 	return result.canceled ? null : result.filePaths;
 });
 
-ipcMain.handle('file:readAsDataUrl', async (_, filePath: string) => {
+ipcMain.handle('file:getFileUrl', async (_, filePath: string) => {
 	try {
-		const buffer = readFileSync(filePath);
-		const ext = path.extname(filePath).toLowerCase();
-		const mimeTypes: Record<string, string> = {
-			'.jpg': 'image/jpeg',
-			'.jpeg': 'image/jpeg',
-			'.png': 'image/png',
-			'.gif': 'image/gif',
-			'.webp': 'image/webp',
-			'.mp4': 'video/mp4',
-			'.webm': 'video/webm',
-			'.mov': 'video/quicktime'
-		};
-		const mimeType = mimeTypes[ext] || 'application/octet-stream';
-		return `data:${mimeType};base64,${buffer.toString('base64')}`;
+		// Convertir la ruta a URL file:// compatible con todos los sistemas operativos
+		return pathToFileURL(filePath).href;
 	} catch (error) {
-		console.error('Error reading file:', error);
+		console.error('Error converting file path:', error);
 		return null;
 	}
 });

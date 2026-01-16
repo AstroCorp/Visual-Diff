@@ -17,7 +17,7 @@ const errorMessage = ref<string>('');
 const getFileType = (filePath: string): 'image' | 'video' | 'unknown' => {
 	const ext = filePath.toLowerCase().split('.').pop() || '';
 	const imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-	const videoExts = ['mp4', 'webm', 'mov'];
+	const videoExts = ['mp4', 'webm', 'mov', 'avi', 'mkv', 'flv', 'wmv', 'm4v', 'mpeg', 'mpg', '3gp', 'ogv'];
 	
 	if (imageExts.includes(ext)) return 'image';
 	if (videoExts.includes(ext)) return 'video';
@@ -27,7 +27,7 @@ const getFileType = (filePath: string): 'image' | 'video' | 'unknown' => {
 
 /**
  * Obtiene las dimensiones (ancho y alto) de una imagen o video
- * @param dataUrl - Data URL del archivo en formato base64
+ * @param dataUrl - URL del archivo (file:// o data URL)
  * @param type - Tipo de medio ('image' o 'video')
  * @returns Promise con las dimensiones {width, height}
  */
@@ -79,10 +79,10 @@ const selectFiles = async () => {
 		return;
 	}
 	
-	// Leer archivos como Data URLs (base64)
+	// Obtener las URLs file:// de los archivos
 	const [leftDataUrl, rightDataUrl] = await Promise.all([
-		window.electronAPI.readFileAsDataUrl(leftPath),
-		window.electronAPI.readFileAsDataUrl(rightPath)
+		window.electronAPI.getFileUrl(leftPath),
+		window.electronAPI.getFileUrl(rightPath)
 	]);
 	
 	if (!leftDataUrl || !rightDataUrl) {

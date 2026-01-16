@@ -19,8 +19,12 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
+// Detectar si es video por la extensión de archivo en la URL
 const isVideo = computed(() => {
-	return props.imageLeft.startsWith('data:video/');
+	const url = props.imageLeft;
+	const ext = url.toLowerCase().split('.').pop()?.split(/[?#]/)[0] || '';
+
+	return ['mp4', 'webm', 'mov', 'avi', 'mkv', 'flv', 'wmv', 'm4v', 'mpeg', 'mpg', '3gp', 'ogv'].includes(ext);
 });
 
 const MIN_ZOOM = 0.1;

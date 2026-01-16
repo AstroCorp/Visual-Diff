@@ -5,5 +5,5 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
 	openFileDialog: () => ipcRenderer.invoke('dialog:openFile') as Promise<string[] | null>,
-	readFileAsDataUrl: (filePath: string) => ipcRenderer.invoke('file:readAsDataUrl', filePath)
+	getFileUrl: (filePath: string) => ipcRenderer.invoke('file:getFileUrl', filePath) as Promise<string | null>
 });
