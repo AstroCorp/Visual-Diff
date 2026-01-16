@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-	@apply font-sans antialiased;
+	@apply font-sans antialiased select-none;
 }
 
 *:focus,
