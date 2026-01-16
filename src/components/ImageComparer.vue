@@ -4,6 +4,7 @@ import SliderIcon from '../icons/slider.svg?raw';
 import Options from './Options.vue';
 import FileMenu from './FileMenu.vue';
 import VideoControls from './VideoControls.vue';
+import Loader from './Loader.vue';
 
 interface Props {
 	imageLeft: string;
@@ -34,17 +35,19 @@ const ZOOM_STEP = 0.1;
 const sliderPosition = ref(50);
 const zoom = ref(1);
 const isDragging = ref(false);
-const containerRef = ref<HTMLDivElement | null>(null);
 const panOffset = ref({ x: 0, y: 0 });
 const isPanning = ref(false);
 const panStart = ref({ x: 0, y: 0 });
-const imageVisible = ref(true);
+const isVisible = ref(true);
+const containerRef = ref<HTMLDivElement | null>(null);
 const videoLeftRef = ref<HTMLMediaElement | null>(null);
 const videoRightRef = ref<HTMLMediaElement | null>(null);
 const videoCurrentTime = ref(0);
 const videoDuration = ref(0);
 const videoIsPlaying = ref(false);
 const videoFrameRate = ref(30);
+const rightItemLoaded = ref(false);
+const leftItemLoaded = ref(false);
 
 const sliderStyle = computed(() => ({
 	left: `${sliderPosition.value}%`,
@@ -71,8 +74,8 @@ const handleReset = () => {
 	panOffset.value = { x: 0, y: 0 };
 };
 
-const handleToggleImage = () => {
-	imageVisible.value = !imageVisible.value;
+const handleToggle = () => {
+	isVisible.value = !isVisible.value;
 };
 
 const startDragging = (event: MouseEvent) => {
@@ -151,6 +154,14 @@ const handleVideoSeek = (time: number) => {
 	videoCurrentTime.value = time;
 };
 
+const handleLoadLeft = () => {
+	leftItemLoaded.value = true;
+};
+
+const handleLoadRight = () => {
+	rightItemLoaded.value = true;
+};
+
 const handleVideoEnded = () => {
 	videoIsPlaying.value = false;
 };
@@ -204,7 +215,7 @@ const updateVideoDuration = () => {
 };
 
 // Sincronizar el estado de reproducción cuando se muestra/oculta el video derecho
-watch(imageVisible, async (newValue) => {
+watch(isVisible, async (newValue) => {
 	await nextTick();
 
 	if (isVideo.value && newValue && videoRightRef.value && videoLeftRef.value) {
@@ -259,6 +270,8 @@ onUnmounted(() => {
 
 <template>
 	<div class="w-full h-full flex items-center justify-center overflow-hidden">
+		<Loader v-if="!leftItemLoaded || !rightItemLoaded" />
+
 		<div
 			ref="containerRef"
 			class="relative w-full h-full select-none overflow-hidden"
@@ -269,7 +282,7 @@ onUnmounted(() => {
 			@mousedown="startPanning"
 			@wheel="handleWheel"
 		>
-			<!-- Imagen de fondo (izquierda) -->
+			<!-- Imagen o vídeo de fondo (izquierda) -->
 			<div
 				class="absolute inset-0 flex items-center justify-center min-w-full min-h-full"
 			>
@@ -283,6 +296,7 @@ onUnmounted(() => {
 					@timeupdate="updateVideoTime"
 					@loadedmetadata="updateVideoDuration"
 					@ended="handleVideoEnded"
+					@canplaythrough="handleLoadLeft"
 				/>
 				<img
 					v-else
@@ -291,12 +305,13 @@ onUnmounted(() => {
 					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					draggable="false"
+					@load="handleLoadLeft"
 				/>
 			</div>
 
-			<!-- Imagen superpuesta (derecha) con clip -->
+			<!-- Imagen o vídeo superpuesto (derecha) con clip -->
 			<div
-				v-if="imageVisible"
+				v-if="isVisible"
 				class="absolute inset-0 flex items-center justify-center min-w-full min-h-full"
 				:style="clipStyle"
 			>
@@ -307,6 +322,7 @@ onUnmounted(() => {
 					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					muted
+					@load="handleLoadRight"
 				/>
 				<img
 					v-else
@@ -315,12 +331,13 @@ onUnmounted(() => {
 					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					draggable="false"
+					@load="handleLoadRight"
 				/>
 			</div>
 
 			<!-- Línea del slider -->
 			<div
-				v-if="imageVisible"
+				v-if="isVisible"
 				class="absolute top-0 bottom-0 w-0.5 bg-white shadow-lg cursor-ew-resize z-10"
 				:style="sliderStyle"
 				@mousedown="startDragging"
@@ -370,11 +387,11 @@ onUnmounted(() => {
 			<!-- Opciones -->
 			<Options
 				:zoom="zoom"
-				:image-visible="imageVisible"
+				:image-visible="isVisible"
 				@zoom-in="handleZoomIn"
 				@zoom-out="handleZoomOut"
 				@reset="handleReset"
-				@toggle-image="handleToggleImage"
+				@toggle-image="handleToggle"
 			/>
 
 			<!-- Menú de archivos -->
