@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
 import SliderIcon from '../icons/slider.svg?raw';
 import Options from './Options.vue';
 import FileMenu from './FileMenu.vue';
@@ -144,6 +144,10 @@ const handleVideoSeek = (time: number) => {
 	videoCurrentTime.value = time;
 };
 
+const handleVideoEnded = () => {
+	videoIsPlaying.value = false;
+};
+
 const updateVideoTime = () => {
 	if (videoLeftRef.value) {
 		videoCurrentTime.value = videoLeftRef.value.currentTime;
@@ -155,6 +159,23 @@ const updateVideoDuration = () => {
 		videoDuration.value = videoLeftRef.value.duration;
 	}
 };
+
+// Sincronizar el estado de reproducción cuando se muestra/oculta el video derecho
+watch(imageVisible, async (newValue) => {
+	if (newValue && isVideo.value && videoIsPlaying.value) {
+		await nextTick();
+		
+		if (videoRightRef.value && videoLeftRef.value) {
+			videoLeftRef.value.pause();
+			videoRightRef.value.pause();
+
+			videoRightRef.value.currentTime = videoLeftRef.value.currentTime;
+
+			videoLeftRef.value.play();
+			videoRightRef.value.play();
+		}
+	}
+});
 
 onMounted(() => {
 	document.addEventListener('mousemove', handleMouseMove);
@@ -192,6 +213,7 @@ onUnmounted(() => {
 					muted
 					@timeupdate="updateVideoTime"
 					@loadedmetadata="updateVideoDuration"
+					@ended="handleVideoEnded"
 				/>
 				<img
 					v-else
