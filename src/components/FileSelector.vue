@@ -128,7 +128,7 @@ const selectFiles = async () => {
 				{{ errorMessage }}
 			</p>
 			<p class="text-gray-400 text-sm mt-4">
-				Selecciona 2 imágenes o videos
+				Selecciona 2 imágenes o 2 vídeos
 			</p>
 		</div>
 	</div>
