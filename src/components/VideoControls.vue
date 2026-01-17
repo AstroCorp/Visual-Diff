@@ -31,12 +31,18 @@ const totalFrames = computed(() => Math.floor(props.duration * props.frameRate))
 const formattedDuration = computed(() => formatTime(props.duration));
 const progressPercentage = computed(() => {
 	if (props.duration === 0) return 0;
+
 	return (props.currentTime / props.duration) * 100;
 });
 
 const formatTime = (seconds: number): string => {
-	const mins = Math.floor(seconds / 60);
+	const hours = Math.floor(seconds / 3600);
+	const mins = Math.floor((seconds % 3600) / 60);
 	const secs = Math.floor(seconds % 60);
+
+	if (hours > 0) {
+		return `${hours}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+	}
 
 	return `${mins}:${secs.toString().padStart(2, '0')}`;
 };
@@ -67,7 +73,7 @@ const handleSliderMouseUp = () => {
 
 <template>
 	<div class="bg-black/60 backdrop-blur-md rounded-full shadow-2xl w-full">
-		<div class="flex items-center gap-3 px-4 py-2 text-white">
+		<div class="flex items-center gap-1.5 px-3 py-1.5 text-white">
 			<!-- Frame anterior -->
 			<button
 				@click="emit('prev-frame')"
@@ -92,7 +98,9 @@ const handleSliderMouseUp = () => {
 				v-html="PlayerSkipForwardIcon"
 			/>
 
-			<div class="flex flex-row gap-1.5 text-xs font-mono whitespace-nowrap bg-white/10 px-2.5 py-1.5 rounded-full">
+			<div 
+				class="flex flex-row justify-center gap-1.5 text-xs font-mono whitespace-nowrap bg-white/10 px-2.5 py-1.5 rounded-full"
+			>
 				<div>
 					{{ formattedCurrentTime }} / {{ formattedDuration }}
 				</div>
@@ -101,7 +109,7 @@ const handleSliderMouseUp = () => {
 
 			<!-- Timeline Slider -->
 			<div
-				class="flex-1 relative h-1 bg-white/20 rounded-full overflow-visible min-w-50"
+				class="flex-1 relative h-1 bg-white/20 rounded-full overflow-visible min-w-50 mx-1.5"
 			>
 				<div
 					class="absolute left-0 top-0 h-full bg-white/60 rounded-full transition-all"

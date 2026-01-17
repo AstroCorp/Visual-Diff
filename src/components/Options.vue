@@ -31,7 +31,7 @@ const handleToggleImage = () => emit('toggle-image');
 
 <template>
 	<div class="bg-black/60 backdrop-blur-md rounded-full shadow-2xl">
-		<div class="flex items-center gap-1.5 p-1.5 text-white">
+		<div class="flex items-center gap-1.5 px-3 py-1.5 text-white">
 			<!-- Zoom In -->
 			<button
 				@click="handleZoomIn"

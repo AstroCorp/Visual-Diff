@@ -382,25 +382,21 @@ onUnmounted(() => {
 
 		<!-- Menús -->
 		<div
-			class="fixed bottom-5 right-5 flex flex-col-reverse lg:flex-row items-end lg:items-center gap-2 z-20"
+			class="w-full fixed bottom-5 px-5 flex flex-col-reverse lg:flex-row items-end lg:items-center gap-2 z-20"
 		>
 			<!-- Controles de video -->
-			<div
+			<VideoControls
 				v-if="isVideo"
-				class="md:flex-1"
-			>
-				<VideoControls
-					:current-time="videoCurrentTime"
-					:duration="videoDuration"
-					:is-playing="videoIsPlaying"
-					:frame-rate="videoFrameRate"
-					@play="handleVideoPlay"
-					@pause="handleVideoPause"
-					@seek="handleVideoSeek"
-					@next-frame="handleNextFrame"
-					@prev-frame="handlePrevFrame"
-				/>
-			</div>
+				:current-time="videoCurrentTime"
+				:duration="videoDuration"
+				:is-playing="videoIsPlaying"
+				:frame-rate="videoFrameRate"
+				@play="handleVideoPlay"
+				@pause="handleVideoPause"
+				@seek="handleVideoSeek"
+				@next-frame="handleNextFrame"
+				@prev-frame="handlePrevFrame"
+			/>
 
 			<!-- Opciones -->
 			<Options
