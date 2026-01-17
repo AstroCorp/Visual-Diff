@@ -193,7 +193,7 @@ const updateVideoTime = () => {
 const updateVideoDuration = () => {
 	if (videoLeftRef.value) {
 		videoDuration.value = videoLeftRef.value.duration;
-		
+
 		// Intentar detectar el framerate del video
 		try {
 			if (videoLeftRef.value && videoLeftRef.value.captureStream) {
@@ -220,7 +220,7 @@ watch(isVisible, async (newValue) => {
 
 	if (isVideo.value && newValue && videoRightRef.value && videoLeftRef.value) {
 		const isPaused = videoLeftRef.value.paused;
-		
+
 		videoLeftRef.value.pause();
 		videoRightRef.value.pause();
 
@@ -239,7 +239,7 @@ watch(isVisible, async (newValue) => {
 
 		// Sincronizar tiempos
 		videoRightRef.value.currentTime = videoLeftRef.value.currentTime;
-		
+
 		// Esperar a que el seek se complete
 		await new Promise<void>((resolve) => {
 			const handler = () => {
@@ -347,18 +347,36 @@ onUnmounted(() => {
 					class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 cursor-ew-resize"
 					v-html="SliderIcon"
 				/>
+			</div>
 
-				<!-- Nombres de archivo que siguen al slider -->
-			<div class="absolute top-5 right-full mr-2.5 pointer-events-none w-64 md:w-80 lg:w-96">
+			<!-- Nombres de archivo que siguen al slider -->
+			<div
+				v-if="isVisible"
+				class="absolute top-5 pointer-events-none max-w-64 md:max-w-80 lg:max-w-96 z-10"
+				:style="{
+					left: `${sliderPosition}%`,
+					transform: 'translateX(calc(-100% - 15px))',
+				}"
+			>
 				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
-					<p class="text-white text-xs font-mono break-all">{{ fileNameLeft }}</p>
+					<p class="text-white text-xs font-mono break-all">
+						{{ fileNameLeft }}
+					</p>
 				</div>
 			</div>
-			<div class="absolute top-5 left-full ml-2.5 pointer-events-none w-64 md:w-80 lg:w-96">
+			<div
+				v-if="isVisible"
+				class="absolute top-5 pointer-events-none max-w-64 md:max-w-80 lg:max-w-96 z-10"
+				:style="{
+					left: `${sliderPosition}%`,
+					transform: 'translateX(15px)',
+				}"
+			>
 				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
-					<p class="text-white text-xs font-mono break-all">{{ fileNameRight }}</p>
+					<p class="text-white text-xs font-mono break-all">
+						{{ fileNameRight }}
+					</p>
 				</div>
-			</div>
 			</div>
 		</div>
 
