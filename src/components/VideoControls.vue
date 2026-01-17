@@ -24,6 +24,7 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const isDragging = ref(false);
+const showFrames = ref(false);
 
 const formattedCurrentTime = computed(() => formatTime(props.currentTime));
 const currentFrame = computed(() => Math.floor(props.currentTime * props.frameRate));
@@ -41,10 +42,10 @@ const formatTime = (seconds: number): string => {
 	const secs = Math.floor(seconds % 60);
 
 	if (hours > 0) {
-		return `${hours}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+		return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 	}
 
-	return `${mins}:${secs.toString().padStart(2, '0')}`;
+	return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
 const handlePlayPause = () => {
@@ -68,6 +69,10 @@ const handleSliderMouseDown = () => {
 
 const handleSliderMouseUp = () => {
 	isDragging.value = false;
+};
+
+const toggleTimeDisplay = () => {
+	showFrames.value = !showFrames.value;
 };
 </script>
 
@@ -99,12 +104,23 @@ const handleSliderMouseUp = () => {
 			/>
 
 			<div 
-				class="flex flex-row justify-center gap-1.5 text-xs font-mono whitespace-nowrap bg-white/10 px-2.5 py-1.5 rounded-full"
+				@click="toggleTimeDisplay"
+				class="flex flex-row justify-center gap-1.5 text-xs font-mono whitespace-nowrap bg-white/10 px-2.5 py-1.5 rounded-full cursor-pointer hover:bg-white/15 transition-colors"
+				:class="{
+					'w-32': totalFrames.toString().length <= 3,
+					'w-36': totalFrames.toString().length === 4,
+					'w-40': totalFrames.toString().length === 5,
+					'w-44': totalFrames.toString().length === 6,
+					'w-48': totalFrames.toString().length >= 7
+				}"
+				:title="showFrames ? 'Mostrar tiempo' : 'Mostrar frames'"
 			>
-				<div>
+				<div v-if="!showFrames">
 					{{ formattedCurrentTime }} / {{ formattedDuration }}
 				</div>
-				<div class="text-white/50">({{ currentFrame }} / {{ totalFrames }})</div>
+				<div v-else>
+					Frame {{ currentFrame }} / {{ totalFrames }}
+				</div>
 			</div>
 
 			<!-- Timeline Slider -->
