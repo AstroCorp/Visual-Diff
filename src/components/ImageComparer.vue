@@ -380,7 +380,7 @@ onUnmounted(() => {
 
 		<!-- Menús -->
 		<div
-			class="w-full fixed bottom-5 px-5 flex flex-col-reverse lg:flex-row items-end lg:items-center gap-2 z-20"
+			class="w-full fixed bottom-5 px-5 flex flex-col-reverse lg:flex-row items-end lg:justify-end gap-2 z-20"
 		>
 			<!-- Controles de video -->
 			<VideoControls
