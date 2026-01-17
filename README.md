@@ -30,7 +30,7 @@ Visual Diff is a desktop application built with **Electron** + **Vue 3** that al
 
 ### Requirements
 
-- Node.js (v18 or higher recommended)
+- Node.js (v22 or higher recommended)
 - pnpm package manager
 
 ### Installation
@@ -78,7 +78,7 @@ Visual Diff es una aplicación de escritorio desarrollada con **Electron** + **V
 
 ### Requisitos
 
-- Node.js (v18 o superior recomendado)
+- Node.js (v22 o superior recomendado)
 - Gestor de paquetes pnpm
 
 ### Instalación
