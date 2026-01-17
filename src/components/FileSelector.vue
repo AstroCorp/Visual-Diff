@@ -121,7 +121,7 @@ const validateImageFiles = async (leftUrl: string, rightUrl: string): Promise<vo
 
 	// Verificar aspect ratio (ancho/alto)
 	if (leftDims.width * rightDims.height !== rightDims.width * leftDims.height) {
-		throw new Error(`Los archivos tienen aspect ratios diferentes (${leftDims.width}x${leftDims.height} vs ${rightDims.width}x${rightDims.height})`);
+		throw new Error(`Files have different aspect ratios (${leftDims.width}x${leftDims.height} vs ${rightDims.width}x${rightDims.height})`);
 	}
 };
 
@@ -139,7 +139,7 @@ const validateVideoFiles = async (leftUrl: string, rightUrl: string): Promise<vo
 
 	// Verificar aspect ratio
 	if (leftInfo.width * rightInfo.height !== rightInfo.width * leftInfo.height) {
-		throw new Error(`Los videos tienen aspect ratios diferentes (${leftInfo.width}x${leftInfo.height} vs ${rightInfo.width}x${rightInfo.height})`);
+		throw new Error(`Videos have different aspect ratios (${leftInfo.width}x${leftInfo.height} vs ${rightInfo.width}x${rightInfo.height})`);
 	}
 
 	// Verificar duración del video (tolerancia de 0.1 segundos)
@@ -149,14 +149,14 @@ const validateVideoFiles = async (leftUrl: string, rightUrl: string): Promise<vo
 		const leftMs = Math.round(leftInfo.duration * 1000);
 		const rightMs = Math.round(rightInfo.duration * 1000);
 
-		throw new Error(`Los videos tienen duraciones diferentes: ${formatDuration(leftInfo.duration)} (${leftMs} ms) vs ${formatDuration(rightInfo.duration)} (${rightMs} ms)`);
+		throw new Error(`Videos have different durations: ${formatDuration(leftInfo.duration)} (${leftMs} ms) vs ${formatDuration(rightInfo.duration)} (${rightMs} ms)`);
 	}
 
 	// Verificar número de frames
 	const frameDiff = Math.abs(leftInfo.totalFrames - rightInfo.totalFrames);
 
 	if (frameDiff > 0) {
-		throw new Error(`Los videos tienen diferente número de frames (${leftInfo.totalFrames} vs ${rightInfo.totalFrames})`);
+		throw new Error(`Videos have different number of frames (${leftInfo.totalFrames} vs ${rightInfo.totalFrames})`);
 	}
 };
 
@@ -176,7 +176,7 @@ const selectFiles = async () => {
 	
 	// Validar que sean exactamente 2 archivos
 	if (filePaths.length !== 2) {
-		errorMessage.value = 'Por favor, selecciona exactamente 2 archivos';
+		errorMessage.value = 'Please select exactly 2 files';
 		return;
 	}
 	
@@ -186,7 +186,7 @@ const selectFiles = async () => {
 	
 	// Validar que ambos sean del mismo tipo y reconocidos
 	if (leftType !== rightType || leftType === 'unknown' || rightType === 'unknown') {
-		errorMessage.value = 'Ambos archivos deben ser del mismo tipo (imágenes o videos)';
+		errorMessage.value = 'Both files must be of the same type (images or videos)';
 		return;
 	}
 	
@@ -197,7 +197,7 @@ const selectFiles = async () => {
 	]);
 	
 	if (!leftDataUrl || !rightDataUrl) {
-		errorMessage.value = 'Error al cargar los archivos';
+		errorMessage.value = 'Error loading files';
 		return;
 	}
 
@@ -215,7 +215,7 @@ const selectFiles = async () => {
 
 		emit('filesSelected', leftDataUrl, rightDataUrl, leftName, rightName);
 	} catch (error) {
-		errorMessage.value = error instanceof Error ? error.message : 'Error al verificar los archivos';
+		errorMessage.value = error instanceof Error ? error.message : 'Error verifying files';
 	}
 };
 </script>
@@ -228,13 +228,13 @@ const selectFiles = async () => {
 				@click="selectFiles"
 				class="px-8 py-4 bg-white/20 hover:bg-white/40 text-white text-lg rounded-lg transition-colors cursor-pointer"
 			>
-				Seleccionar 2 archivos para comparar
+				Select 2 files to compare
 			</button>
 			<p v-if="errorMessage" class="text-red-400 text-sm mt-4">
 				{{ errorMessage }}
 			</p>
 			<p class="text-gray-400 text-sm mt-4">
-				Selecciona 2 imágenes o 2 vídeos
+				Select 2 images or 2 videos
 			</p>
 		</div>
 	</div>

@@ -83,7 +83,7 @@ const toggleTimeDisplay = () => {
 			<button
 				@click="emit('prev-frame')"
 				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
-				title="Frame anterior"
+				title="Previous frame"
 				v-html="PlayerSkipBackIcon"
 			/>
 
@@ -91,7 +91,7 @@ const toggleTimeDisplay = () => {
 			<button
 				@click="handlePlayPause"
 				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
-				:title="isPlaying ? 'Pausar' : 'Reproducir'"
+				:title="isPlaying ? 'Pause' : 'Play'"
 				v-html="isPlaying ? PlayerPauseIcon : PlayerPlayIcon"
 			/>
 
@@ -99,7 +99,7 @@ const toggleTimeDisplay = () => {
 			<button
 				@click="emit('next-frame')"
 				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
-				title="Frame siguiente"
+				title="Next frame"
 				v-html="PlayerSkipForwardIcon"
 			/>
 
@@ -113,7 +113,7 @@ const toggleTimeDisplay = () => {
 					'w-44': totalFrames.toString().length === 6,
 					'w-48': totalFrames.toString().length >= 7
 				}"
-				:title="showFrames ? 'Mostrar tiempo' : 'Mostrar frames'"
+				:title="showFrames ? 'Show time' : 'Show frames'"
 			>
 				<div v-if="!showFrames">
 					{{ formattedCurrentTime }} / {{ formattedDuration }}

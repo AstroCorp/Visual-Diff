@@ -17,7 +17,7 @@ const handleSelectFiles = () => emit('select-files');
 			<button
 				@click="handleSelectFiles"
 				class="w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-white/20 cursor-pointer"
-				title="Seleccionar otros archivos"
+				title="Select other files"
 				v-html="UploadIcon"
 			/>
 		</div>
