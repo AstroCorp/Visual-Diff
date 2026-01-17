@@ -301,7 +301,6 @@ onUnmounted(() => {
 				<img
 					v-else
 					:src="imageLeft"
-					alt="Imagen izquierda"
 					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					draggable="false"
@@ -327,7 +326,6 @@ onUnmounted(() => {
 				<img
 					v-else
 					:src="imageRight"
-					alt="Imagen derecha"
 					class="object-contain pointer-events-none w-full h-full"
 					:style="transformStyle"
 					draggable="false"
@@ -360,7 +358,7 @@ onUnmounted(() => {
 			>
 				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
 					<p class="text-white text-xs font-mono break-all text-center">
-						{{ fileNameLeft }}
+						{{ fileNameRight }}
 					</p>
 				</div>
 			</div>
@@ -374,7 +372,7 @@ onUnmounted(() => {
 			>
 				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
 					<p class="text-white text-xs font-mono break-all text-center">
-						{{ fileNameRight }}
+						{{ fileNameLeft }}
 					</p>
 				</div>
 			</div>
