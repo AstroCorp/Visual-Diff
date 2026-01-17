@@ -352,28 +352,28 @@ onUnmounted(() => {
 			<!-- Nombres de archivo que siguen al slider -->
 			<div
 				v-if="isVisible"
-				class="absolute top-5 pointer-events-none max-w-64 md:max-w-80 lg:max-w-96 z-10"
+				class="absolute top-5 pointer-events-none w-64 md:w-80 lg:w-96 z-10"
 				:style="{
 					left: `${sliderPosition}%`,
 					transform: 'translateX(calc(-100% - 15px))',
 				}"
 			>
 				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
-					<p class="text-white text-xs font-mono break-all">
+					<p class="text-white text-xs font-mono break-all text-center">
 						{{ fileNameLeft }}
 					</p>
 				</div>
 			</div>
 			<div
 				v-if="isVisible"
-				class="absolute top-5 pointer-events-none max-w-64 md:max-w-80 lg:max-w-96 z-10"
+				class="absolute top-5 pointer-events-none w-64 md:w-80 lg:w-96 z-10"
 				:style="{
 					left: `${sliderPosition}%`,
 					transform: 'translateX(15px)',
 				}"
 			>
 				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
-					<p class="text-white text-xs font-mono break-all">
+					<p class="text-white text-xs font-mono break-all text-center">
 						{{ fileNameRight }}
 					</p>
 				</div>
