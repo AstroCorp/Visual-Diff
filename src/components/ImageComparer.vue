@@ -356,7 +356,7 @@ onUnmounted(() => {
 					transform: 'translateX(calc(-100% - 15px))',
 				}"
 			>
-				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
+				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-full">
 					<p class="text-white text-xs font-mono break-all text-center">
 						{{ fileNameRight }}
 					</p>
@@ -370,7 +370,7 @@ onUnmounted(() => {
 					transform: 'translateX(15px)',
 				}"
 			>
-				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-lg">
+				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-full">
 					<p class="text-white text-xs font-mono break-all text-center">
 						{{ fileNameLeft }}
 					</p>
