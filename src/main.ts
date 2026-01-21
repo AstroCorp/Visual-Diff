@@ -2,11 +2,20 @@ import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import started from 'electron-squirrel-startup';
+import { updateElectronApp, UpdateSourceType } from 'update-electron-app';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
 	app.quit();
 }
+
+updateElectronApp({
+	updateSource: {
+		type: UpdateSourceType.ElectronPublicUpdateService,
+		repo: 'AstroCorp/Visual-Diff',
+	},
+	updateInterval: '1 hour',
+});
 
 const createWindow = () => {
 	// Create the browser window.
