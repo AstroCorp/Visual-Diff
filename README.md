@@ -1,8 +1,16 @@
 # Visual Diff
 
-[English](#english) | [Español](#español)
+<p align="center">
+  <img src="example.webp" alt="Visual Diff Example">
+</p>
 
----
+<p align="center">
+  <a href="https://www.instagram.com/angeliyo_o" target="_blank">Image by angeliyo_o</a>
+</p>
+
+<p align="center">
+  <a href="#english">English</a> | <a href="#español">Español</a>
+</p>
 
 ## English
 
