@@ -72,6 +72,7 @@ const handleZoomOut = () => {
 const handleReset = () => {
 	zoom.value = 1;
 	panOffset.value = { x: 0, y: 0 };
+	sliderPosition.value = 50;
 };
 
 const handleToggle = () => {
