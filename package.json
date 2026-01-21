@@ -1,6 +1,8 @@
 {
 	"name": "visual-diff",
 	"productName": "visual-diff",
+	"author": "AstroCorp",
+	"description": "Visual Diff is a desktop application built with Electron + Vue 3 that allows you to visually compare two images or two videos side-by-side. It provides an interactive slider to reveal differences between the files, making it easy to spot changes, variations, or discrepancies.",
 	"license": "MIT",
 	"version": "1.0.0",
 	"main": ".vite/build/main.js",
