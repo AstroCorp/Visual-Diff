@@ -72,6 +72,8 @@ const config: ForgeConfig = {
 				name: 'Visual-Diff',
 			},
 			prerelease: false,
+			draft: false,
+			generateReleaseNotes: true,
 		}),
 	],
 };
