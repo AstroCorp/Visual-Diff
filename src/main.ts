@@ -15,6 +15,7 @@ updateElectronApp({
 		repo: 'AstroCorp/Visual-Diff',
 	},
 	updateInterval: '1 hour',
+	notifyUser: true,
 });
 
 const createWindow = () => {

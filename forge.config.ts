@@ -1,5 +1,5 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
-import { MakerZIP } from '@electron-forge/maker-zip';
+import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerRpm } from '@electron-forge/maker-rpm';
 import { PublisherGithub } from '@electron-forge/publisher-github';
@@ -15,7 +15,7 @@ const config: ForgeConfig = {
 	rebuildConfig: {},
 	makers: [
 		// Windows
-		new MakerZIP({}, ['win32']),
+		new MakerSquirrel(),
 		// Linux - RPM
 		new MakerRpm({
 			options: {

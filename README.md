@@ -34,7 +34,6 @@ Visual Diff is a desktop application built with **Electron** + **Vue 3** that al
 | `pnpm package` | Package the application for distribution |
 | `pnpm make` | Build distributable packages (installers) for the current platform |
 | `pnpm publish` | Publish the application to configured distribution channels |
-| `pnpm postinstall` | Automatically runs after dependencies are installed to set up Electron |
 
 ### Requirements
 
@@ -82,7 +81,6 @@ Visual Diff es una aplicación de escritorio desarrollada con **Electron** + **V
 | `pnpm package` | Empaqueta la aplicación para distribución |
 | `pnpm make` | Construye paquetes distribuibles (instaladores) para la plataforma actual |
 | `pnpm publish` | Publica la aplicación en los canales de distribución configurados |
-| `pnpm postinstall` | Se ejecuta automáticamente después de instalar dependencias para configurar Electron |
 
 ### Requisitos
 

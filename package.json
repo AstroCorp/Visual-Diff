@@ -9,7 +9,6 @@
 	"scripts": {
 		"start": "electron-forge start",
 		"package": "electron-forge package",
-		"postinstall": "node node_modules/electron/install.js",
 		"make": "electron-forge make",
 		"publish": "electron-forge publish"
 	},
@@ -36,5 +35,11 @@
 		"tailwindcss": "^4.1.18",
 		"update-electron-app": "^3.1.2",
 		"vue": "^3.5.26"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"electron",
+			"electron-winstaller"
+		]
 	}
 }
