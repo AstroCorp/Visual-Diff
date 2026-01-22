@@ -15,7 +15,9 @@ const config: ForgeConfig = {
 	rebuildConfig: {},
 	makers: [
 		// Windows
-		new MakerSquirrel(),
+		new MakerSquirrel({
+			setupIcon: './src/icons/icon.ico',
+		}),
 		// Linux - RPM
 		new MakerRpm({
 			options: {
