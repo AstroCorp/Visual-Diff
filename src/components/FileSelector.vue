@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import IconLogo from '../icons/icon.svg?raw';
+import UploadIcon from '../icons/upload.svg?raw';
 
 interface Emits {
 	(e: 'filesSelected', left: string, right: string, leftName: string, rightName: string): void;
@@ -228,16 +229,17 @@ const selectFiles = async () => {
 
 			<button
 				@click="selectFiles"
-				class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white text-lg rounded-full transition-colors cursor-pointer"
+				class="px-10 py-4 bg-white/10 hover:bg-white/20 text-white text-base rounded-full transition-colors cursor-pointer"
+				title="Select files"
+				v-html="UploadIcon"
 			>
-				Select files
 			</button>
 
-			<p v-if="errorMessage" class="text-red-400 text-sm text-center mt-4">
+			<p v-if="errorMessage" class="text-red-400 text-sm text-center mt-5">
 				{{ errorMessage }}
 			</p>
 			
-			<p class="bg-black/20 text-gray-300 text-sm mt-4 p-4 rounded-lg">
+			<p class="bg-black/20 text-gray-300 text-sm mt-5 p-4 rounded-lg">
 				Select 2 images or 2 videos with same properties to compare
 			</p>
 		</div>
