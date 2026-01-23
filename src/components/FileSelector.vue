@@ -222,19 +222,26 @@ const selectFiles = async () => {
 
 <template>
 	<div class="flex-1 flex items-center justify-center">
-		<div class="text-center space-y-6">
-			<h1 class="text-2xl font-bold text-white mb-8">Visual Diff</h1>
+		<div class="flex flex-col items-center bg-white/5 backdrop-blur-sm rounded-2xl shadow-2xl p-6 w-96 text-center">
+			<img 
+				src="../icons/icon.svg" 
+				alt="Visual Diff Logo" 
+				class="w-24 h-24 mx-auto mb-4"
+			/>
+
 			<button
 				@click="selectFiles"
-				class="px-8 py-4 bg-white/20 hover:bg-white/40 text-white text-lg rounded-lg transition-colors cursor-pointer"
+				class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white text-lg rounded-full transition-colors cursor-pointer"
 			>
-				Select 2 files to compare
+				Select files
 			</button>
-			<p v-if="errorMessage" class="text-red-400 text-sm mt-4">
+
+			<p v-if="errorMessage" class="text-red-400 text-sm text-center mt-4">
 				{{ errorMessage }}
 			</p>
-			<p class="text-gray-400 text-sm mt-4">
-				Select 2 images or 2 videos
+			
+			<p class="bg-black/20 text-gray-300 text-sm mt-4 p-4 rounded-lg">
+				Select 2 images or 2 videos with same properties to compare
 			</p>
 		</div>
 	</div>

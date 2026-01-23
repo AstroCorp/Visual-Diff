@@ -105,7 +105,7 @@ const toggleTimeDisplay = () => {
 
 			<div 
 				@click="toggleTimeDisplay"
-				class="flex flex-row justify-center gap-1.5 text-xs font-mono whitespace-nowrap bg-white/10 px-2.5 py-1.5 rounded-full cursor-pointer hover:bg-white/15 transition-colors"
+				class="flex flex-row justify-center gap-1.5 text-xs whitespace-nowrap bg-white/10 px-2.5 py-1.5 rounded-full cursor-pointer hover:bg-white/15 transition-colors"
 				:class="{
 					'w-32': totalFrames.toString().length <= 3,
 					'w-36': totalFrames.toString().length === 4,

@@ -358,7 +358,7 @@ onUnmounted(() => {
 				}"
 			>
 				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-full">
-					<p class="text-white text-xs font-mono break-all text-center">
+					<p class="text-white text-xs break-all text-center">
 						{{ fileNameRight }}
 					</p>
 				</div>
@@ -372,7 +372,7 @@ onUnmounted(() => {
 				}"
 			>
 				<div class="bg-black/60 backdrop-blur-sm px-3 py-2 rounded-full">
-					<p class="text-white text-xs font-mono break-all text-center">
+					<p class="text-white text-xs break-all text-center">
 						{{ fileNameLeft }}
 					</p>
 				</div>
