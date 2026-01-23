@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import IconLogo from '../icons/icon.svg?raw';
 
 interface Emits {
 	(e: 'filesSelected', left: string, right: string, leftName: string, rightName: string): void;
@@ -223,11 +224,7 @@ const selectFiles = async () => {
 <template>
 	<div class="flex-1 flex items-center justify-center">
 		<div class="flex flex-col items-center bg-white/5 backdrop-blur-sm rounded-2xl shadow-2xl p-6 w-96 text-center">
-			<img 
-				src="../icons/icon.svg" 
-				alt="Visual Diff Logo" 
-				class="w-24 h-24 mx-auto mb-4"
-			/>
+			<div class="w-24 h-24 mb-4" v-html="IconLogo"></div>
 
 			<button
 				@click="selectFiles"
