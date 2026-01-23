@@ -44,7 +44,7 @@ const selectFiles = async () => {
 const processFiles = async (filePaths: string[]) => {
 	// Validar que sean exactamente 2 archivos
 	if (filePaths.length !== 2) {
-		errorMessage.value = 'Please select exactly 2 files';
+		errorMessage.value = 'Please select 2 images or 2 videos with the same properties';
 		return;
 	}
 	
