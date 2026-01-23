@@ -7,6 +7,9 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
+/**
+ * Emite el evento para abrir el diálogo de selección de archivos
+ */
 const handleSelectFiles = () => emit('select-files');
 </script>
 

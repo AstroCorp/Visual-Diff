@@ -4,6 +4,7 @@ import PlayerPlayIcon from '../icons/player-play.svg?raw';
 import PlayerPauseIcon from '../icons/player-pause.svg?raw';
 import PlayerSkipBackIcon from '../icons/player-skip-back.svg?raw';
 import PlayerSkipForwardIcon from '../icons/player-skip-forward.svg?raw';
+import { useMediaFiles } from '../composables/useMediaFiles';
 
 interface Props {
 	currentTime: number;
@@ -22,32 +23,24 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
+const { formatDuration } = useMediaFiles();
 
 const isDragging = ref(false);
 const showFrames = ref(false);
 
-const formattedCurrentTime = computed(() => formatTime(props.currentTime));
+const formattedCurrentTime = computed(() => formatDuration(props.currentTime));
 const currentFrame = computed(() => Math.floor(props.currentTime * props.frameRate));
 const totalFrames = computed(() => Math.floor(props.duration * props.frameRate));
-const formattedDuration = computed(() => formatTime(props.duration));
+const formattedDuration = computed(() => formatDuration(props.duration));
 const progressPercentage = computed(() => {
 	if (props.duration === 0) return 0;
 
 	return (props.currentTime / props.duration) * 100;
 });
 
-const formatTime = (seconds: number): string => {
-	const hours = Math.floor(seconds / 3600);
-	const mins = Math.floor((seconds % 3600) / 60);
-	const secs = Math.floor(seconds % 60);
-
-	if (hours > 0) {
-		return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-	}
-
-	return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-};
-
+/**
+ * Alterna entre reproducir y pausar el video
+ */
 const handlePlayPause = () => {
 	if (props.isPlaying) {
 		emit('pause');
@@ -56,6 +49,10 @@ const handlePlayPause = () => {
 	}
 };
 
+/**
+ * Maneja el cambio de posición del slider de tiempo
+ * @param event - Evento de input del slider
+ */
 const handleSliderInput = (event: Event) => {
 	const target = event.target as HTMLInputElement;
 	const time = parseFloat(target.value);
@@ -63,14 +60,23 @@ const handleSliderInput = (event: Event) => {
 	emit('seek', time);
 };
 
+/**
+ * Marca el inicio del arrastre del slider
+ */
 const handleSliderMouseDown = () => {
 	isDragging.value = true;
 };
 
+/**
+ * Marca el final del arrastre del slider
+ */
 const handleSliderMouseUp = () => {
 	isDragging.value = false;
 };
 
+/**
+ * Alterna entre mostrar tiempo (mm:ss) o número de frame
+ */
 const toggleTimeDisplay = () => {
 	showFrames.value = !showFrames.value;
 };
@@ -105,7 +111,7 @@ const toggleTimeDisplay = () => {
 
 			<div 
 				@click="toggleTimeDisplay"
-				class="flex flex-row justify-center gap-1.5 text-xs font-mono whitespace-nowrap bg-white/10 px-2.5 py-1.5 rounded-full cursor-pointer hover:bg-white/15 transition-colors"
+				class="flex flex-row justify-center gap-1.5 text-xs whitespace-nowrap bg-white/10 px-2.5 py-1.5 rounded-full cursor-pointer hover:bg-white/15 transition-colors"
 				:class="{
 					'w-32': totalFrames.toString().length <= 3,
 					'w-36': totalFrames.toString().length === 4,

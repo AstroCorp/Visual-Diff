@@ -1,9 +1,10 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, webUtils } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
 	openFileDialog: () => ipcRenderer.invoke('dialog:openFile') as Promise<string[] | null>,
-	getFileUrl: (filePath: string) => ipcRenderer.invoke('file:getFileUrl', filePath) as Promise<string | null>
+	getFileUrl: (filePath: string) => ipcRenderer.invoke('file:getFileUrl', filePath) as Promise<string | null>,
+	getPathForFile: (file: File) => webUtils.getPathForFile(file)
 });
