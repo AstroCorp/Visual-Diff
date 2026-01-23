@@ -13,6 +13,8 @@ const isDragging = ref<boolean>(false);
 
 /**
  * Maneja el evento de drag enter
+ * Activa el estado de arrastre para feedback visual
+ * @param e - Evento de drag del navegador
  */
 const handleDragEnter = (e: DragEvent) => {
 	e.preventDefault();
@@ -22,6 +24,8 @@ const handleDragEnter = (e: DragEvent) => {
 
 /**
  * Maneja el evento de drag over para permitir el drop
+ * Previene el comportamiento por defecto del navegador
+ * @param e - Evento de drag del navegador
  */
 const handleDragOver = (e: DragEvent) => {
 	e.preventDefault();
@@ -30,6 +34,9 @@ const handleDragOver = (e: DragEvent) => {
 
 /**
  * Maneja el evento de drag leave
+ * Desactiva el estado de arrastre solo cuando el cursor sale completamente del contenedor,
+ * evitando flickering al pasar sobre elementos hijos
+ * @param e - Evento de drag del navegador
  */
 const handleDragLeave = (e: DragEvent) => {
 	e.preventDefault();
@@ -46,6 +53,9 @@ const handleDragLeave = (e: DragEvent) => {
 
 /**
  * Maneja el evento de drop de archivos
+ * Procesa los archivos soltados, filtra solo archivos multimedia válidos,
+ * limita a los primeros 2 archivos y emite el evento con las rutas
+ * @param e - Evento de drop del navegador conteniendo los archivos
  */
 const handleDrop = async (e: DragEvent) => {
 	e.preventDefault();
@@ -56,7 +66,7 @@ const handleDrop = async (e: DragEvent) => {
 		return;
 	}
 	
-	// En Electron, usamos webUtils.getPathForFile() para obtener la ruta completa
+	// En Electron, usamos webUtils.getPathForFile() para obtener la ruta completa del archivo
 	const files = Array.from(e.dataTransfer.files);
 	const allFilePaths = files.map(file => window.electronAPI.getPathForFile(file));
 	

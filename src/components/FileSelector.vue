@@ -15,10 +15,8 @@ const { getFileType, validateImageFiles, validateVideoFiles } = useMediaFiles();
 const errorMessage = ref<string>('');
 
 /**
- * Maneja la selección de archivos con validaciones:
- * - Exactamente 2 archivos
- * - Mismo tipo (ambos imágenes o ambos videos)
- * - Mismo aspect ratio (comparación exacta)
+ * Abre el diálogo nativo de selección de archivos
+ * y procesa los archivos seleccionados
  */
 const selectFiles = async () => {
 	errorMessage.value = '';
@@ -32,8 +30,16 @@ const selectFiles = async () => {
 };
 
 /**
- * Procesa y valida los archivos seleccionados
- * @param filePaths - Array de rutas de archivos a procesar
+ * Procesa y valida archivos seleccionados (por diálogo o drag and drop)
+ * 
+ * Realiza validaciones en el siguiente orden:
+ * 1. Verifica que sean exactamente 2 archivos
+ * 2. Verifica que ambos sean del mismo tipo (imagen o video)
+ * 3. Obtiene las URLs file:// de los archivos
+ * 4. Valida que tengan el mismo aspect ratio (y duración/frames si son videos)
+ * 5. Emite evento con las URLs y nombres de archivo
+ * 
+ * @param filePaths - Array de rutas absolutas de archivos a procesar
  */
 const processFiles = async (filePaths: string[]) => {
 	// Validar que sean exactamente 2 archivos
@@ -83,6 +89,8 @@ const processFiles = async (filePaths: string[]) => {
 
 /**
  * Maneja los archivos soltados desde el componente DragDropZone
+ * Limpia errores previos y delega el procesamiento a processFiles
+ * @param filePaths - Array de rutas de archivos arrastrados
  */
 const handleFilesDropped = async (filePaths: string[]) => {
 	errorMessage.value = '';

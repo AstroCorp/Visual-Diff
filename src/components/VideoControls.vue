@@ -36,6 +36,11 @@ const progressPercentage = computed(() => {
 	return (props.currentTime / props.duration) * 100;
 });
 
+/**
+ * Formatea tiempo en segundos a formato legible
+ * @param seconds - Tiempo en segundos
+ * @returns String en formato mm:ss o hh:mm:ss si es mayor a 1 hora
+ */
 const formatTime = (seconds: number): string => {
 	const hours = Math.floor(seconds / 3600);
 	const mins = Math.floor((seconds % 3600) / 60);
@@ -48,6 +53,9 @@ const formatTime = (seconds: number): string => {
 	return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
 
+/**
+ * Alterna entre reproducir y pausar el video
+ */
 const handlePlayPause = () => {
 	if (props.isPlaying) {
 		emit('pause');
@@ -56,6 +64,10 @@ const handlePlayPause = () => {
 	}
 };
 
+/**
+ * Maneja el cambio de posición del slider de tiempo
+ * @param event - Evento de input del slider
+ */
 const handleSliderInput = (event: Event) => {
 	const target = event.target as HTMLInputElement;
 	const time = parseFloat(target.value);
@@ -63,14 +75,23 @@ const handleSliderInput = (event: Event) => {
 	emit('seek', time);
 };
 
+/**
+ * Marca el inicio del arrastre del slider
+ */
 const handleSliderMouseDown = () => {
 	isDragging.value = true;
 };
 
+/**
+ * Marca el final del arrastre del slider
+ */
 const handleSliderMouseUp = () => {
 	isDragging.value = false;
 };
 
+/**
+ * Alterna entre mostrar tiempo (mm:ss) o número de frame
+ */
 const toggleTimeDisplay = () => {
 	showFrames.value = !showFrames.value;
 };

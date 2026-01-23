@@ -20,7 +20,6 @@ interface Emits {
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
-// Detectar si es video por la extensión de archivo en la URL
 const isVideo = computed(() => {
 	const url = props.imageLeft;
 	const ext = url.toLowerCase().split('.').pop()?.split(/[?#]/)[0] || '';
