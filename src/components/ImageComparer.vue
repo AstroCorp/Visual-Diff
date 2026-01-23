@@ -5,6 +5,7 @@ import Options from './Options.vue';
 import FileMenu from './FileMenu.vue';
 import VideoControls from './VideoControls.vue';
 import Loader from './Loader.vue';
+import { useMediaFiles } from '../composables/useMediaFiles';
 
 interface Props {
 	imageLeft: string;
@@ -19,13 +20,9 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
+const { getFileType } = useMediaFiles();
 
-const isVideo = computed(() => {
-	const url = props.imageLeft;
-	const ext = url.toLowerCase().split('.').pop()?.split(/[?#]/)[0] || '';
-
-	return ['mp4', 'webm', 'mov', 'avi', 'mkv', 'flv', 'wmv', 'm4v', 'mpeg', 'mpg', '3gp', 'ogv'].includes(ext);
-});
+const isVideo = computed(() => getFileType(props.imageLeft) === 'video');
 
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 10;

@@ -4,6 +4,7 @@ import PlayerPlayIcon from '../icons/player-play.svg?raw';
 import PlayerPauseIcon from '../icons/player-pause.svg?raw';
 import PlayerSkipBackIcon from '../icons/player-skip-back.svg?raw';
 import PlayerSkipForwardIcon from '../icons/player-skip-forward.svg?raw';
+import { useMediaFiles } from '../composables/useMediaFiles';
 
 interface Props {
 	currentTime: number;
@@ -22,36 +23,20 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
+const { formatDuration } = useMediaFiles();
 
 const isDragging = ref(false);
 const showFrames = ref(false);
 
-const formattedCurrentTime = computed(() => formatTime(props.currentTime));
+const formattedCurrentTime = computed(() => formatDuration(props.currentTime));
 const currentFrame = computed(() => Math.floor(props.currentTime * props.frameRate));
 const totalFrames = computed(() => Math.floor(props.duration * props.frameRate));
-const formattedDuration = computed(() => formatTime(props.duration));
+const formattedDuration = computed(() => formatDuration(props.duration));
 const progressPercentage = computed(() => {
 	if (props.duration === 0) return 0;
 
 	return (props.currentTime / props.duration) * 100;
 });
-
-/**
- * Formatea tiempo en segundos a formato legible
- * @param seconds - Tiempo en segundos
- * @returns String en formato mm:ss o hh:mm:ss si es mayor a 1 hora
- */
-const formatTime = (seconds: number): string => {
-	const hours = Math.floor(seconds / 3600);
-	const mins = Math.floor((seconds % 3600) / 60);
-	const secs = Math.floor(seconds % 60);
-
-	if (hours > 0) {
-		return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-	}
-
-	return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-};
 
 /**
  * Alterna entre reproducir y pausar el video
